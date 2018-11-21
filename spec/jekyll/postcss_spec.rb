@@ -2,8 +2,6 @@
 
 # rubocop:disable Metrics/BlockLength
 
-require "open3"
-
 RSpec.describe Jekyll::Converters::PostCss do
   let(:configuration) { Jekyll::Configuration::DEFAULTS }
   let(:converter) do
