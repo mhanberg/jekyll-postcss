@@ -1,5 +1,6 @@
 # Jekyll  PostCSS
 [![Build Status](https://travis-ci.com/mhanberg/jekyll-postcss.svg?branch=master)](https://travis-ci.com/mhanberg/jekyll-postcss)
+[![Gem Version](https://badge.fury.io/rb/jekyll-postcss.svg)](https://badge.fury.io/rb/jekyll-postcss)
 
 A plugin to use PostCSS plugins like [Autoprefixer](https://github.com/postcss/autoprefixer) or [Tailwind CSS](https://github.com/tailwindcss/tailwindcss) with Jekyll.
 
