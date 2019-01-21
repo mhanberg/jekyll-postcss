@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
-
 RSpec.describe Jekyll::Converters::PostCss do
-  let(:configuration) { Jekyll::Configuration::DEFAULTS }
+  let(:configuration) do
+    Jekyll::Configuration::DEFAULTS
+  end
+
   let(:converter) do
     Jekyll::Converters::PostCss.new(configuration)
   end
@@ -33,7 +34,7 @@ RSpec.describe Jekyll::Converters::PostCss do
     expect(status).to receive(:success?) { false }
     allow(Open3).to receive(:capture2) { [nil, status] }
 
-    expect { converter.convert(nil) }.to raise_error(PostCssRuntimeError)
+    expect { converter.convert("") }.to raise_error(PostCssRuntimeError)
   end
 
   it "shells out to PostCSS and returns the compiled css" do
@@ -52,6 +53,18 @@ RSpec.describe Jekyll::Converters::PostCss do
 
     expect(result).to eq converted_css
   end
-end
 
-# rubocop:enable Metrics/BlockLength
+  it "won't recompile the css if it hasn't changed" do
+    unchanged_css = "unchanged css"
+    status = instance_double(Process::Status)
+
+    allow(File).to receive(:file?) { true }
+    expect(status).to receive(:success?) { true }
+    expect(Open3).to receive(:capture2) { ["cached css", status] }.once
+
+    converter.convert(unchanged_css)
+    result = converter.convert(unchanged_css)
+
+    expect(result).to eq("cached css")
+  end
+end
