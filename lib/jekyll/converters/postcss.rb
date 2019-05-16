@@ -13,6 +13,7 @@ module Jekyll
         super
 
         @raw_cache = nil
+        @import_raw_cache = {}
         @converted_cache = nil
       end
 
@@ -27,9 +28,12 @@ module Jekyll
       def convert(content)
         raise PostCssNotFoundError unless File.file?("./node_modules/.bin/postcss")
 
-        raw_digest = Digest::MD5.hexdigest content
-        if @raw_cache != raw_digest
-          @raw_cache = raw_digest
+        @raw_digest = Digest::MD5.hexdigest content
+        @raw_import_digests = import_digests(content)
+
+        if cache_miss.any?
+          @raw_cache = @raw_digest.dup
+          @import_raw_cache = @raw_import_digests.dup
 
           compiled_css, status =
             Open3.capture2("./node_modules/.bin/postcss", :stdin_data => content)
@@ -37,9 +41,34 @@ module Jekyll
           raise PostCssRuntimeError unless status.success?
 
           @converted_cache = compiled_css
-        else
-          @converted_cache
         end
+
+        reset
+
+        @converted_cache
+      end
+
+      private
+
+      def import_digests(content)
+        content
+          .scan(%r!^@import "(?<file>.*)";$!)
+          .flatten
+          .each_with_object({}) do |import, acc|
+            file = "#{import}.css"
+            acc[import] = Digest::MD5.hexdigest IO.read(file) if File.file?(file)
+          end
+      end
+
+      def cache_miss
+        @raw_import_digests
+          .map { |import, hash| @import_raw_cache[import] != hash }
+          .prepend(@raw_cache != @raw_digest)
+      end
+
+      def reset
+        @raw_digest = nil
+        @raw_import_digest = nil
       end
     end
   end
