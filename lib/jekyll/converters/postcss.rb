@@ -63,7 +63,7 @@ module Jekyll
       def cache_miss
         @raw_import_digests
           .map { |import, hash| @import_raw_cache[import] != hash }
-          .prepend(@raw_cache != @raw_digest)
+          .unshift(@raw_cache != @raw_digest)
       end
 
       def reset
