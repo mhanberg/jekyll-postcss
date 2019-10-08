@@ -26,7 +26,7 @@ plugins:
 
 Make sure you have [postcss-cli](https://github.com/postcss/postcss-cli) installed and has its binary located at `./node_modules/.bin/postcss`.
 
-Add your PostCSS plugins to a `postcss.config.js` file in the root of your repository.
+Add your PostCSS plugins to a `postcss.config.js` file in the root of your repository. 
 
 ```javascript
 // postcss.config.js
@@ -44,6 +44,18 @@ All files with the `.css` extension will now be processed by PostCSS.
 ### Note
 
 `jekyll-postcss` will cache your styles to avoid rebuilding when nothing has changed.
+
+Also note that your `.css` files still need to have a frontmatter (top part separated with `---`) for them to be processed by jekyll.
+
+```
+---
+---
+
+/* Example using Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
 ## Development
 
