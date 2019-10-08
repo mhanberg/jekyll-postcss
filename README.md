@@ -31,7 +31,7 @@ Add your PostCSS plugins to a `postcss.config.js` file in the root of your repos
 ```javascript
 // postcss.config.js
 
-module.exports {
+module.exports = {
   plugins: [
     require("autoprefixer") // example of plugin you might use
   ]
