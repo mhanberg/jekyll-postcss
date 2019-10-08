@@ -26,7 +26,7 @@ plugins:
 
 Make sure you have [postcss-cli](https://github.com/postcss/postcss-cli) installed and has its binary located at `./node_modules/.bin/postcss`.
 
-Add your PostCSS plugins to a `postcss.config.js` file in the root of your repository. 
+Add your PostCSS plugins to a `postcss.config.js` file in the root of your repository.
 
 ```javascript
 // postcss.config.js
