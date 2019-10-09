@@ -45,6 +45,18 @@ All files with the `.css` extension will now be processed by PostCSS.
 
 `jekyll-postcss` will cache your styles to avoid rebuilding when nothing has changed.
 
+Also note that your `.css` files still need to have a [front matter](https://jekyllrb.com/docs/step-by-step/03-front-matter/) for them to be processed by Jekyll.
+
+```
+---
+---
+
+/* Example using Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
