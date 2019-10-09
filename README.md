@@ -45,7 +45,7 @@ All files with the `.css` extension will now be processed by PostCSS.
 
 `jekyll-postcss` will cache your styles to avoid rebuilding when nothing has changed.
 
-Also note that your `.css` files still need to have a frontmatter (top part separated with `---`) for them to be processed by jekyll.
+Also note that your `.css` files still need to have a [front matter](https://jekyllrb.com/docs/step-by-step/03-front-matter/) for them to be processed by Jekyll.
 
 ```
 ---
