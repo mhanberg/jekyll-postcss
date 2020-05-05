@@ -2,9 +2,12 @@
 
 RSpec.describe Jekyll::Converters::PostCss do
   before do
-    @converter = Jekyll::Converters::PostCss.new(configuration)
+    @socket = instance_double(PostCss::Socket)
+    conf = { "socket" => @socket }.merge(configuration)
+    @converter = Jekyll::Converters::PostCss.new(conf)
     allow(File).to receive(:file?).with("_includes/syntax.css") { true }
   end
+
   let(:configuration) do
     Jekyll::Configuration::DEFAULTS
   end
@@ -22,48 +25,20 @@ RSpec.describe Jekyll::Converters::PostCss do
   end
 
   it "raises a PostCssNotFoundError when it PostCSS is not installed" do
-    allow(File).to receive(:file?) { false }
+    allow(Dir).to receive(:exist?) { false }
 
     expect { @converter.convert(nil) }.to raise_error PostCssNotFoundError
   end
 
-  it "raises a PostCssRuntimeError if the PostCSS process does not succeed" do
-    status = instance_double(Process::Status)
-
-    allow(File).to receive(:file?) { true }
-    expect(status).to receive(:success?) { false }
-    allow(Open3).to receive(:capture2) { [nil, status] }
-
-    expect { @converter.convert("") }.to raise_error(PostCssRuntimeError)
-  end
-
-  it "shells out to PostCSS and returns the compiled css" do
-    unconverted_content = "unconverted css"
-    converted_css = "converted css"
-    status = instance_double(Process::Status)
-
-    allow(File).to receive(:file?) { true }
-    expect(status).to receive(:success?) { true }
-    expect(Open3).to receive(:capture2).with(
-      "./node_modules/.bin/postcss",
-      :stdin_data => unconverted_content
-    ) { [converted_css, status] }
-
-    result = @converter.convert(unconverted_content)
-
-    expect(result).to eq converted_css
-  end
-
   it "won't recompile the css if it hasn't changed" do
-    unchanged_css = "unchanged css"
-    status = instance_double(Process::Status)
+    unconverted_content = "unchanged css"
 
-    allow(File).to receive(:file?) { true }
-    expect(status).to receive(:success?) { true }
-    expect(Open3).to receive(:capture2) { ["cached css", status] }.once
+    allow(Dir).to receive(:exist?).with("./node_modules/postcss") { true }
+    expect(@socket).to receive(:write) { unconverted_content }
+    expect(@socket).to receive(:read) { "cached css" }.once
 
-    @converter.convert(unchanged_css)
-    result = @converter.convert(unchanged_css)
+    @converter.convert(unconverted_content)
+    result = @converter.convert(unconverted_content)
 
     expect(result).to eq("cached css")
   end
@@ -73,13 +48,12 @@ RSpec.describe Jekyll::Converters::PostCss do
     unconverted_content = <<~CSS
       @import "_includes/syntax";
     CSS
-    status = instance_double(Process::Status)
 
-    allow(File).to receive(:file?).with("./node_modules/.bin/postcss") { true }
+    allow(Dir).to receive(:exist?).with("./node_modules/postcss") { true }
     expect(File).to receive(:file?).with("_includes/syntax.css") { true }
     expect(IO).to receive(:read).with("_includes/syntax.css") { syntax_css }.twice
-    expect(status).to receive(:success?) { true }
-    expect(Open3).to receive(:capture2) { ["cached css", status] }.once
+    expect(@socket).to receive(:write) { unconverted_content }
+    expect(@socket).to receive(:read) { "cached css" }.once
 
     @converter.convert(unconverted_content)
     result = @converter.convert(unconverted_content)
@@ -92,15 +66,14 @@ RSpec.describe Jekyll::Converters::PostCss do
     unconverted_content = <<~CSS
       @import "_includes/syntax";
     CSS
-    status = instance_double(Process::Status)
 
-    allow(File).to receive(:file?).with("./node_modules/.bin/postcss") { true }
+    allow(Dir).to receive(:exist?).with("./node_modules/postcss") { true }
     expect(File).to receive(:file?).with("_includes/syntax.css") { true }
     expect(IO).to receive(:read).with("_includes/syntax.css") { syntax_css }.once
     expect(IO).to receive(:read).with("_includes/syntax.css") { "changed" }.once
-    expect(status).to receive(:success?) { true }.twice
-    expect(Open3).to receive(:capture2) { ["first", status] }.once.ordered
-    expect(Open3).to receive(:capture2) { ["second", status] }.once.ordered
+    expect(@socket).to receive(:write) { unconverted_content }.twice
+    expect(@socket).to receive(:read) { "first" }.once
+    expect(@socket).to receive(:read) { "second" }.once
 
     result1 = @converter.convert(unconverted_content)
     result2 = @converter.convert(unconverted_content)
@@ -113,12 +86,11 @@ RSpec.describe Jekyll::Converters::PostCss do
     unconverted_content = <<~CSS
       @import "tailwind/base";
     CSS
-    status = instance_double(Process::Status)
 
-    allow(File).to receive(:file?).with("./node_modules/.bin/postcss") { true }
+    allow(Dir).to receive(:exist?).with("./node_modules/postcss") { true }
     expect(File).to receive(:file?).with("tailwind/base.css") { false }
-    expect(status).to receive(:success?) { true }
-    expect(Open3).to receive(:capture2) { ["css", status] }.once
+    expect(@socket).to receive(:write) { unconverted_content }
+    expect(@socket).to receive(:read) { "css" }
 
     result = @converter.convert(unconverted_content)
 

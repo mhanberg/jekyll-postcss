@@ -24,7 +24,7 @@ plugins:
 
 ## Usage
 
-Make sure you have [postcss-cli](https://github.com/postcss/postcss-cli) installed and has its binary located at `./node_modules/.bin/postcss`.
+Make sure you have [postcss](https://github.com/postcss/postcss) installed.
 
 Add your PostCSS plugins to a `postcss.config.js` file in the root of your repository.
 
@@ -34,12 +34,14 @@ Add your PostCSS plugins to a `postcss.config.js` file in the root of your repos
 module.exports = {
   plugins: [
     require("autoprefixer") // example of plugin you might use
+    ...(process.env.JEKYLL_ENV == "production" // example of only using a plugin in production
+      ? [require("cssnano")({ preset: "default" })]
+      : [])
   ]
 };
 ```
 
 All files with the `.css` extension will now be processed by PostCSS.
-
 
 ### Note
 

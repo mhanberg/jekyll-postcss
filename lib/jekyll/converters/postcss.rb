@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "open3"
 require "digest"
+require_relative "../../jekyll-postcss/socket"
 
 module Jekyll
   module Converters
@@ -12,6 +12,7 @@ module Jekyll
       def initialize(config = {})
         super
 
+        @socket = config.fetch("socket") { ::PostCss::Socket.new }
         @raw_cache = nil
         @import_raw_cache = {}
         @converted_cache = nil
@@ -26,7 +27,7 @@ module Jekyll
       end
 
       def convert(content)
-        raise PostCssNotFoundError unless File.file?("./node_modules/.bin/postcss")
+        raise PostCssNotFoundError unless Dir.exist?("./node_modules/postcss")
 
         @raw_digest = Digest::MD5.hexdigest content
         @raw_import_digests = import_digests(content)
@@ -35,12 +36,9 @@ module Jekyll
           @raw_cache = @raw_digest.dup
           @import_raw_cache = @raw_import_digests.dup
 
-          compiled_css, status =
-            Open3.capture2("./node_modules/.bin/postcss", :stdin_data => content)
+          @socket.write content
 
-          raise PostCssRuntimeError unless status.success?
-
-          @converted_cache = compiled_css
+          @converted_cache = @socket.read
         end
 
         reset
@@ -75,4 +73,3 @@ module Jekyll
 end
 
 class PostCssNotFoundError < RuntimeError; end
-class PostCssRuntimeError < RuntimeError; end
