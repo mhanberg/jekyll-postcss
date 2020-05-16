@@ -7,11 +7,12 @@ module Jekyll
   module Converters
     class PostCss < Converter
       safe true
-      priority :low
+      priority :normal
 
       def initialize(config = {})
         super
 
+        @postcss_config = config.fetch("postcss", {})
         @socket = config.fetch("socket") { ::PostCss::Socket.new }
         @raw_cache = nil
         @import_raw_cache = {}
@@ -19,11 +20,11 @@ module Jekyll
       end
 
       def matches(ext)
-        ext.casecmp(".css").zero?
+        @postcss_config.fetch("extensions", [".css"]).include?(ext.downcase)
       end
 
-      def output_ext(_ext)
-        ".css"
+      def output_ext(ext)
+        ext
       end
 
       def convert(content)

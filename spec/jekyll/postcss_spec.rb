@@ -3,8 +3,8 @@
 RSpec.describe Jekyll::Converters::PostCss do
   before do
     @socket = instance_double(PostCss::Socket)
-    conf = { "socket" => @socket }.merge(configuration)
-    @converter = Jekyll::Converters::PostCss.new(conf)
+    @conf = { "socket" => @socket }.merge(configuration)
+    @converter = Jekyll::Converters::PostCss.new(@conf)
     allow(File).to receive(:file?).with("_includes/syntax.css") { true }
   end
 
@@ -16,12 +16,23 @@ RSpec.describe Jekyll::Converters::PostCss do
     expect(Jekyll::PostCss::VERSION).not_to be nil
   end
 
-  it "matches .css files" do
+  it "matches .css files by default" do
     expect(@converter.matches(".css")).to be true
+    expect(@converter.matches(".scss")).to be false
   end
 
-  it "always outputs the .css file extension" do
-    expect(@converter.output_ext(".not-css")).to eql ".css"
+  it "matches other extensions when configured" do
+    @converter = Jekyll::Converters::PostCss.new(
+      @conf.merge("postcss" => { "extensions" => [".css", ".scss"] })
+    )
+
+    expect(@converter.matches(".css")).to be true
+    expect(@converter.matches(".scss")).to be true
+    expect(@converter.matches(".less")).to be false
+  end
+
+  it "output extension is the same as the input extension" do
+    expect(@converter.output_ext(".random")).to eql ".random"
   end
 
   it "raises a PostCssNotFoundError when it PostCSS is not installed" do
