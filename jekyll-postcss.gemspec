@@ -32,7 +32,7 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "jekyll",
                                   ENV["JEKYLL_VERSION"] ? "~> #{ENV["JEKYLL_VERSION"]}" : ">= 2.0"
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "rake", ">= 12.3.3"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop-jekyll", "~> 0.5.1"
 end
