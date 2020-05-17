@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2
+
+- Output valid CSS when running outside the development environment
+
 ## 0.3.1
 
 - Only run development server in development
