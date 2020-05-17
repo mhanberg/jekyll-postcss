@@ -43,9 +43,9 @@ module.exports = {
 
 All files with the `.css` extension will now be processed by PostCSS.
 
-### Note
+### Notes
 
-`jekyll-postcss` will cache your styles to avoid rebuilding when nothing has changed.
+jekyll-postcss will run a development server when `JEKYLL_ENV` is set to `development`. This is the default value if you don't set it elsewhere. When building your site for production or staging, make sure to set the `JEKYLL_ENV` appropriately, or else your deploy may fail, e.g., `JEKYLL_ENV=production bundle exec jekyll build`.
 
 Also note that your `.css` files still need to have a [front matter](https://jekyllrb.com/docs/step-by-step/03-front-matter/) for them to be processed by Jekyll.
 
