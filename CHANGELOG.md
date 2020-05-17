@@ -12,6 +12,7 @@
 
 - Update rake
 - Performance improvement
+- [Breaking?]: Uses `postcss` instead of `postcss-cli`. I think that it will continue to work without changing your dependencies since `postcss-cli` uses `postcss` as a dependency.
 
 ## 0.2.2
 
