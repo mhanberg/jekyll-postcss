@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.1
+
+- Only run development server in development
+
 ## 0.3.0
 
 - Update rake
