@@ -2,7 +2,6 @@
 
 require "socket"
 require "json"
-require "open3"
 
 module PostCss
   class Socket
@@ -30,7 +29,7 @@ module PostCss
       else
         raise "You must call PostCss#write before calling PostCss#read" if @compiled_css.nil?
 
-        @compiled_css
+        decode(@compiled_css)
       end
     end
 
