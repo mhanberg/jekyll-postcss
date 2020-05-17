@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "json"
 require "digest"
 require_relative "../../jekyll-postcss/socket"
 
@@ -43,7 +44,7 @@ module Jekyll
 
         reset
 
-        @converted_cache
+        JSON.parse(@converted_cache)["compiled_css"]
       end
 
       private
