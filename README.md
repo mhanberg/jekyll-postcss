@@ -20,10 +20,6 @@ And then add this line to your application's `_config.yml`:
 
 plugins:
   - jekyll-postcss
-
-postcss:
-  extensions:
-    - ".css" # default
 ```
 
 ## Usage
@@ -45,7 +41,7 @@ module.exports = {
 };
 ```
 
-All files with the configured extensions will now be processed by PostCSS.
+All CSS and SCSS/Sass files will now be processed by PostCSS.
 
 If you choose to configure jekyll-postcss to process alternative syntaxes like SCSS and LESS, you must include the appropriate syntax parser plugin. jekyll-postcss will output the file with the extension that it was given, so then you should include the appropriate Jekyll plugin to convert it the rest of the way (Jekyll comes with [jekyll-sass-converter](https://github.com/jekyll/jekyll-sass-converter) by default).
 

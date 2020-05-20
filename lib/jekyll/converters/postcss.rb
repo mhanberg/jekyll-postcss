@@ -12,7 +12,6 @@ module Jekyll
       def initialize(config = {})
         super
 
-        @postcss_config = config.fetch("postcss", {})
         @socket = config.fetch("socket") { ::PostCss::Socket.new }
         @raw_cache = nil
         @import_raw_cache = {}
@@ -20,7 +19,7 @@ module Jekyll
       end
 
       def matches(ext)
-        @postcss_config.fetch("extensions", [".css"]).include?(ext.downcase)
+        [".css", ".scss", ".sass"].include?(ext.downcase)
       end
 
       def output_ext(ext)

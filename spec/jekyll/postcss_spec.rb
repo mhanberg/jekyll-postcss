@@ -16,19 +16,10 @@ RSpec.describe Jekyll::Converters::PostCss do
     expect(Jekyll::PostCss::VERSION).not_to be nil
   end
 
-  it "matches .css files by default" do
-    expect(@converter.matches(".css")).to be true
-    expect(@converter.matches(".scss")).to be false
-  end
-
-  it "matches other extensions when configured" do
-    @converter = Jekyll::Converters::PostCss.new(
-      @conf.merge("postcss" => { "extensions" => [".css", ".scss"] })
-    )
-
+  it "matches css and sass files" do
     expect(@converter.matches(".css")).to be true
     expect(@converter.matches(".scss")).to be true
-    expect(@converter.matches(".less")).to be false
+    expect(@converter.matches(".sass")).to be true
   end
 
   it "output extension is the same as the input extension" do
