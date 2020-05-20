@@ -1,5 +1,23 @@
 # Changelog
 
+## master
+
+### Process SCSS/Sass files
+
+The plugin now processes scss and sass files in addition to css files. This requires using the [postcss-scss](https://github.com/postcss/postcss-scss) syntax parser in your postcss.config.js
+
+```javascript
+module.exports = {
+  parser: 'postcss-scss',
+  plugins: [
+    // ...
+  ]
+};
+
+jekyll-postcss has a higher priority, so it will hand off the the postcss output to jekyll-sass-converter to finish off compiling.
+
+```
+
 ## 0.3.2
 
 - Output valid CSS when running outside the development environment
