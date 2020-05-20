@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## 0.4.0
 
 ### Process SCSS/Sass files
 
