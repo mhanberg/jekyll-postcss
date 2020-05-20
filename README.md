@@ -43,7 +43,18 @@ module.exports = {
 
 All CSS and SCSS/Sass files will now be processed by PostCSS.
 
-If you choose to configure jekyll-postcss to process alternative syntaxes like SCSS and LESS, you must include the appropriate syntax parser plugin. jekyll-postcss will output the file with the extension that it was given, so then you should include the appropriate Jekyll plugin to convert it the rest of the way (Jekyll comes with [jekyll-sass-converter](https://github.com/jekyll/jekyll-sass-converter) by default).
+### SCSS/Sass
+
+If using SCSS/Sass, you must have [postcss-scss](https://github.com/postcss/postcss-scss) installed and configured in your `postcss.config.js`
+
+```javascript
+module.exports = {
+  parser: 'postcss-scss',
+  plugins: [
+    // ...
+  ]
+};
+```
 
 ### Notes
 

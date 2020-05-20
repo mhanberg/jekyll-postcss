@@ -3,8 +3,7 @@
 RSpec.describe Jekyll::Converters::PostCss do
   before do
     @socket = instance_double(PostCss::Socket)
-    @conf = { "socket" => @socket }.merge(configuration)
-    @converter = Jekyll::Converters::PostCss.new(@conf)
+    @converter = Jekyll::Converters::PostCss.new({ "socket" => @socket }.merge(configuration))
     allow(File).to receive(:file?).with("_includes/syntax.css") { true }
   end
 
