@@ -41,7 +41,20 @@ module.exports = {
 };
 ```
 
-All files with the `.css` extension will now be processed by PostCSS.
+All CSS and SCSS/Sass files will now be processed by PostCSS.
+
+### SCSS/Sass
+
+If using SCSS/Sass, you must have [postcss-scss](https://github.com/postcss/postcss-scss) installed and configured in your `postcss.config.js`
+
+```javascript
+module.exports = {
+  parser: 'postcss-scss',
+  plugins: [
+    // ...
+  ]
+};
+```
 
 ### Notes
 

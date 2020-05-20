@@ -11,5 +11,5 @@
 .rspec_status
 
 Gemfile.lock
-node_modules/
+node_modules
 yarn-error.log

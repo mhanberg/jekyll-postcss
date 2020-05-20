@@ -7,7 +7,7 @@ module Jekyll
   module Converters
     class PostCss < Converter
       safe true
-      priority :low
+      priority :normal
 
       def initialize(config = {})
         super
@@ -19,11 +19,11 @@ module Jekyll
       end
 
       def matches(ext)
-        ext.casecmp(".css").zero?
+        [".css", ".scss", ".sass"].include?(ext.downcase)
       end
 
-      def output_ext(_ext)
-        ".css"
+      def output_ext(ext)
+        ext
       end
 
       def convert(content)
