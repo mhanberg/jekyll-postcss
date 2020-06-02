@@ -24,7 +24,8 @@ jekyll-postcss has a higher priority, so it will hand off the the postcss output
 
 ## 0.3.1
 
-- Only run development server in development
+- Only run development server in development.
+    - This was discovered when attempting to deploy to Netlify. You can read more about it here [#8](https://github.com/mhanberg/jekyll-postcss/issues/8), [#15](https://github.com/mhanberg/jekyll-postcss/issues/15), and [here](https://community.netlify.com/t/deploy-is-hanging-postcss-problem/14822).
 
 ## 0.3.0
 
