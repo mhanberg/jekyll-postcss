@@ -13,6 +13,7 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'jekyll-postcss'
 ```
+
 And then add this line to your application's `_config.yml`:
 
 ```yml
@@ -56,11 +57,34 @@ module.exports = {
 };
 ```
 
-### Notes
+### Deployment
 
-jekyll-postcss will run a development server when `JEKYLL_ENV` is set to `development`. This is the default value if you don't set it elsewhere. When building your site for production or staging, make sure to set the `JEKYLL_ENV` appropriately, or else your deploy may fail, e.g., `JEKYLL_ENV=production bundle exec jekyll build`.
+When deploying, make sure to set your `JEKYLL_ENV` to something like `production` or `staging`. This is necessary to make sure that jekyll-postcss will not use internal development conveniences when building on your host's servers.
 
-Also note that your `.css` files still need to have a [front matter](https://jekyllrb.com/docs/step-by-step/03-front-matter/) for them to be processed by Jekyll.
+This can be done so by setting your build command like so
+
+```shell
+JEKYLL_ENV=production bundle exec jekyll build
+```
+
+or using your hosts proprietary configuration. Here is an example using Netlify.
+
+```toml
+# netlify.toml
+
+[context.production.environment]
+  JEKYLL_ENV = "production"
+
+[context.branch-deploy.environment]
+  JEKYLL_ENV = "staging"
+
+[context.deploy-preview.environment]
+  JEKYLL_ENV = "staging"
+```
+
+### Front Matter Reminder
+
+Your stylesheets still need to have [front matter](https://jekyllrb.com/docs/step-by-step/03-front-matter/) for them to be processed by Jekyll.
 
 ```
 ---
