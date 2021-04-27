@@ -34,7 +34,7 @@ Add your PostCSS plugins to a `postcss.config.js` file in the root of your repos
 
 module.exports = {
   plugins: [
-    require("autoprefixer") // example of plugin you might use
+    require("autoprefixer"), // example of plugin you might use
     ...(process.env.JEKYLL_ENV == "production" // example of only using a plugin in production
       ? [require("cssnano")({ preset: "default" })]
       : [])
