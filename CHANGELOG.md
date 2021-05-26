@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- Fix a weird issue where the jekyll server never booted up because the converter class got in an infinite loop trying to make a socket connection to the postcss server.
+
 ## 0.4.0
 
 ### Process SCSS/Sass files
