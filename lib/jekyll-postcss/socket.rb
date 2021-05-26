@@ -49,19 +49,27 @@ module PostCss
       @env == "development"
     end
 
+    MAX_ATTEMPTS = 100
+
     def start_dev_server
       Thread.new do
         system "#{START_SCRIPT} #{POSTCSS_SCRIPT} --development"
       end
 
-      @postcss = nil
-      while @postcss.nil?
+      attempts = 0
+      @postcss =
         begin
-          @postcss = TCPSocket.open("localhost", 8124)
-        rescue StandardError
-          nil # Suppressing exceptions
+          TCPSocket.open("localhost", 8124) 
+        rescue StandardError => e
+          attempts = attempts + 1
+
+          if attempts < MAX_ATTEMPTS
+            sleep 0.1
+            retry 
+          else
+            raise "Could not connect to the PostCSS server"
+          end
         end
-      end
     end
   end
 end
