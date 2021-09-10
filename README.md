@@ -57,6 +57,17 @@ module.exports = {
 };
 ```
 
+### Caching
+
+Caching is enabled by default so PostCSS will only be called when the CSS content has changed. If needed you can disable caching in your Jekyll configuration to force the CSS to be recompiled every time:
+
+```yaml
+# _config.yml
+
+postcss:
+  cache: false
+```
+
 ### Deployment
 
 When deploying, make sure to set your `JEKYLL_ENV` to something like `production` or `staging`. This is necessary to make sure that jekyll-postcss will not use internal development conveniences when building on your host's servers.

@@ -12,6 +12,7 @@ module Jekyll
       def initialize(config = {})
         super
 
+        @cache_enabled = config.fetch("postcss", {}).fetch("cache", true)
         @socket = config.fetch("socket") { ::PostCss::Socket.new }
         @raw_cache = nil
         @import_raw_cache = {}
@@ -32,7 +33,7 @@ module Jekyll
         @raw_digest = Digest::MD5.hexdigest content
         @raw_import_digests = import_digests(content)
 
-        if cache_miss?
+        if cache_disabled? || cache_miss?
           @raw_cache = @raw_digest.dup
           @import_raw_cache = @raw_import_digests.dup
 
@@ -56,6 +57,10 @@ module Jekyll
             file = "#{import}.css"
             acc[import] = Digest::MD5.hexdigest IO.read(file) if File.file?(file)
           end
+      end
+
+      def cache_disabled?
+        @cache_enabled == false
       end
 
       def cache_miss?
