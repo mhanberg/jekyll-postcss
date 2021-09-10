@@ -32,7 +32,7 @@ module Jekyll
         @raw_digest = Digest::MD5.hexdigest content
         @raw_import_digests = import_digests(content)
 
-        if cache_miss.any?
+        if cache_miss?
           @raw_cache = @raw_digest.dup
           @import_raw_cache = @raw_import_digests.dup
 
@@ -58,10 +58,11 @@ module Jekyll
           end
       end
 
-      def cache_miss
+      def cache_miss?
         @raw_import_digests
           .map { |import, hash| @import_raw_cache[import] != hash }
           .unshift(@raw_cache != @raw_digest)
+          .any?
       end
 
       def reset
