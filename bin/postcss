@@ -7,7 +7,7 @@ const net = require("net");
 class PostCSS {
   static process(data, write) {
     postcss(config.plugins)
-      .process(JSON.parse(data).raw_content, { from: "stdin" })
+      .process(JSON.parse(data).raw_content, { from: undefined })
       .then((result) => write(result))
       .catch((error) => {
         console.error("PostCSS Error!\n");
