@@ -35,7 +35,7 @@ RSpec.describe Jekyll::Converters::PostCss do
     unconverted_content = "unchanged css"
 
     allow(Dir).to receive(:exist?).with("./node_modules/postcss") { true }
-    expect(@socket).to receive(:write) { unconverted_content }
+    expect(@socket).to receive(:write) { unconverted_content }.once
     expect(@socket).to receive(:read) { "cached css" }.once
 
     @converter.convert(unconverted_content)
@@ -96,5 +96,24 @@ RSpec.describe Jekyll::Converters::PostCss do
     result = @converter.convert(unconverted_content)
 
     expect(result).to eq("css")
+  end
+
+  context "with caching disabled" do
+    let(:configuration) do
+      Jekyll::Configuration::DEFAULTS.merge("postcss" => { "cache" => false })
+    end
+
+    it "recompiles the unchanged css if caching is disabled" do
+      unconverted_content = "unchanged css"
+
+      allow(Dir).to receive(:exist?).with("./node_modules/postcss") { true }
+      expect(@socket).to receive(:write) { unconverted_content }.twice
+      expect(@socket).to receive(:read) { "uncached css" }.twice
+
+      @converter.convert(unconverted_content)
+      result = @converter.convert(unconverted_content)
+
+      expect(result).to eq("uncached css")
+    end
   end
 end
