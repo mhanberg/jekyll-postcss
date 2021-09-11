@@ -59,7 +59,9 @@ module.exports = {
 
 ### Caching
 
-Caching is enabled by default so PostCSS will only be called when the CSS content has changed. If needed you can disable caching in your Jekyll configuration to force the CSS to be recompiled every time:
+Caching is enabled by default so PostCSS will only be called when the CSS content has changed. If needed you can disable caching in your Jekyll configuration to force the CSS to be recompiled every time.
+
+If you are using the [TailwindCSS JIT](https://tailwindcss.com/docs/just-in-time-mode), you most likely need to disable the caching feature.
 
 ```yaml
 # _config.yml
