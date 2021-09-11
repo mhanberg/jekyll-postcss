@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+
+- Option to disable the cache #32 by [Tristan Dunn](https://github.com/tristandunn)
+- Show full PostCSS error and stack trace #31 by [Carl Furrow](https://github.com/cfurrow)
+
 ## 0.4.1
 
 - Fix a weird issue where the jekyll server never booted up because the converter class got in an infinite loop trying to make a socket connection to the postcss server.
