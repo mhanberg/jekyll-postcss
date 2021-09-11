@@ -11,7 +11,7 @@ class PostCSS {
       .then((result) => write(result))
       .catch((error) => {
         console.error("PostCSS Error!\n");
-        console.error(error.toString());
+        console.error(error);
       });
   }
 
