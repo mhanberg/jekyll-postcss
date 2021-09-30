@@ -112,7 +112,7 @@ Your stylesheets still need to have [front matter](https://jekyllrb.com/docs/ste
 ## Alternatives 
 
 - [postcss-jekyll-v2](https://github.com/bglw/jekyll-postcss-v2): works well with TailwindCSS 2.0  
-- [bridgetown](https://github.com/bridgetownrb/bridgetown) - A Jekyll fork, which uses Weback for modern JS and CSS and is actively maintained. 
+- [bridgetown](https://github.com/bridgetownrb/bridgetown) - A Jekyll fork, which uses Webpack for modern JS and CSS and is actively maintained. 
 
 ## Development
 
