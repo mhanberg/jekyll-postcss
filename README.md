@@ -109,6 +109,11 @@ Your stylesheets still need to have [front matter](https://jekyllrb.com/docs/ste
 @tailwind utilities;
 ```
 
+## Alternatives 
+
+- [postcss-jekyll-v2](https://github.com/bglw/jekyll-postcss-v2): works well with TailwindCSS 2.0  
+- [bridgetown](https://github.com/bridgetownrb/bridgetown) - A Jekyll fork, which uses Webpack for modern JS and CSS and is actively maintained. 
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
